@@ -5,19 +5,20 @@ import "./App.css";
 import { Board } from "./types/board";
 import { bfs } from "./functions/bfs";
 import { useEffect } from "react";
+import { greedySearch } from "./functions/greedySearch";
 
 function App() {
   const [count, setCount] = useState(0);
   const [board, setBoard] = useState(new Board([[8, 6, 7], [2, 5, 4], [3, 0, 1]]));
-  const [bfsResult, setBfsResult] = useState<string[] | undefined>(undefined);
+  const [result, setResult] = useState<string[] | undefined>(undefined);
 
   useEffect(() => {
-    const result = bfs(board);
-    setBfsResult(result);
-    console.log("BFS Result:", result);
+    const result = greedySearch(board);
+    setResult(result);
+    console.log("Greedy Search Result:", result);
   }, [board]);
 
-  if (!bfsResult) {
+  if (!result) {
     return (
       <div style={{ display: "flex", height: "100vh", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
         <p>Carregando solução com BFS...</p>

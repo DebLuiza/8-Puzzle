@@ -39,13 +39,32 @@ export function getZeroPosition(table: number[][]) {
   return { row: rowIndex, col: colIndex };
 }
 
-export function reconstructPath( parent: Map<string, string | null> ){
-    const path: string[] = [];
-    let currentKey: string | null = "123456780";
+export function reconstructPath(parent: Map<string, string | null>) {
+  const path: string[] = [];
+  let currentKey: string | null = "123456780";
 
-    while (currentKey !== null) {
-        path.push(currentKey);
-        currentKey = parent.get(currentKey) || null;
+  while (currentKey !== null) {
+    path.push(currentKey);
+    currentKey = parent.get(currentKey) || null;
+  }
+  return path.reverse();
+}
+
+export function manhattanHeuristic(table: number[][]): number {
+  let distance = 0;
+
+  for (let i = 0; i < table.length; i++) {
+    for (let j = 0; j < table[i].length; j++) {
+      const value = table[i][j];
+      if (value !== 0) {
+        const targetRow = Math.floor((value - 1) / 3);
+        const targetCol = (value - 1) % 3;
+        distance += Math.abs(i - targetRow) + Math.abs(j - targetCol);
+      }
+      
     }
-    return path.reverse();
+  }
+
+  return distance;
+
 }
