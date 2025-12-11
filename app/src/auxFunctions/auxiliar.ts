@@ -38,3 +38,14 @@ export function getZeroPosition(table: number[][]) {
 
   return { row: rowIndex, col: colIndex };
 }
+
+export function reconstructPath( parent: Map<string, string | null> ){
+    const path: string[] = [];
+    let currentKey: string | null = "123456780";
+
+    while (currentKey !== null) {
+        path.push(currentKey);
+        currentKey = parent.get(currentKey) || null;
+    }
+    return path.reverse();
+}

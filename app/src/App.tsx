@@ -3,19 +3,29 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import { Board } from "./types/board";
+import { bfs } from "./functions/bfs";
+import { useEffect } from "react";
 
 function App() {
   const [count, setCount] = useState(0);
-  const [board, setBoard] = useState(new Board([[1, 2, 3], [4, 0, 6], [7, 8, 9]]));
+  const [board, setBoard] = useState(new Board([[8, 6, 7], [2, 5, 4], [3, 0, 1]]));
+  const [bfsResult, setBfsResult] = useState<string[] | undefined>(undefined);
 
-  console.log(board.table)
+  useEffect(() => {
+    const result = bfs(board);
+    setBfsResult(result);
+    console.log("BFS Result:", result);
+  }, [board]);
 
-  const getStages = () => {
-    console.log(board.getNextStages())
+  if (!bfsResult) {
+    return (
+      <div style={{ display: "flex", height: "100vh", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
+        <p>Carregando solução com BFS...</p>
+      </div>
+    );
   }
 
-  getStages()
-
+ 
   return (
     <>
       <div>

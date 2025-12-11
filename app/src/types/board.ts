@@ -25,13 +25,24 @@ export class Board {
         return;
       }
 
-      const newTable = cloneTable(this.table); 
+      const newTable = cloneTable(this.table);
       swap(newTable, position, target);
 
-      nextStages.push(new Board(newTable)); 
+      nextStages.push(new Board(newTable));
     });
 
     return nextStages
   }
-  
+
+  boardToKey(): string {
+    let word = "";
+
+    for (let i = 0; i < this.table.length; i++) {
+      for (let j = 0; j < this.table[i].length; j++) {
+        word += this.table[i][j].toString();
+      }
+    }
+    return word;
+  }
+
 }
