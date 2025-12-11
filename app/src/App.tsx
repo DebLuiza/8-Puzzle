@@ -6,6 +6,7 @@ import { Board } from "./types/board";
 import { bfs } from "./functions/bfs";
 import { useEffect } from "react";
 import { greedySearch } from "./functions/greedySearch";
+import { aStar } from "./functions/aStar";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -13,9 +14,9 @@ function App() {
   const [result, setResult] = useState<string[] | undefined>(undefined);
 
   useEffect(() => {
-    const result = greedySearch(board);
+    const result = aStar(board);
     setResult(result);
-    console.log("Greedy Search Result:", result);
+    console.log("A* Search Result:", result);
   }, [board]);
 
   if (!result) {
