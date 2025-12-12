@@ -1,22 +1,33 @@
-import { Board } from "../types/board"
+import { Board } from "../types/board";
 import { reconstructPath } from "../auxFunctions/auxiliar";
 
 export const bfs = (board: Board) => {
-    const queue: Board[] = []
+    const startTime = performance.now(); 
+    let visitedCount = 0; 
+
+    const queue: Board[] = [];
     const visited = new Set<string>();
     const parent = new Map<string, string | null>();
 
-    visited.add(board.boardToKey());
+    const startKey = board.boardToKey();
+    
+    visited.add(startKey);
     queue.push(board);
-    parent.set(board.boardToKey(), null);   
-
+    parent.set(startKey, null);   
 
     while (queue.length > 0) {
         const head = queue.shift() as Board;
+        visitedCount++; 
+
         const headKey = head.boardToKey();
 
         if (headKey === "123456780") {
-            break; 
+            const endTime = performance.now();
+            return {
+                path: reconstructPath(parent),
+                visitedNodes: visitedCount,
+                time: endTime - startTime
+            };
         }
 
         const nextStages = head.getNextStages();
@@ -29,9 +40,11 @@ export const bfs = (board: Board) => {
                 parent.set(key, headKey);
             }
         });
-
-        
     }
 
-    return reconstructPath(parent);
-}
+    return {
+        path: [],
+        visitedNodes: visitedCount,
+        time: performance.now() - startTime
+    };
+};

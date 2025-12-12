@@ -39,6 +39,20 @@ export function getZeroPosition(table: number[][]) {
   return { row: rowIndex, col: colIndex };
 }
 
+export function isSolvable(table: number[][]): boolean {
+  const flatBoard = table.flat().filter((x) => x !== 0);
+  let inversions = 0;
+
+  for (let i = 0; i < flatBoard.length; i++) {
+    for (let j = i + 1; j < flatBoard.length; j++) {
+      if (flatBoard[i] > flatBoard[j]) {
+        inversions++;
+      }
+    }
+  }
+  return inversions % 2 === 0;
+}
+
 export function reconstructPath(parent: Map<string, string | null>) {
   const path: string[] = [];
   let currentKey: string | null = "123456780";
@@ -67,4 +81,36 @@ export function manhattanHeuristic(table: number[][]): number {
 
   return distance;
 
+}
+
+export function misplacedTilesHeuristic(table: number[][]): number {
+  let misplaced = 0;
+  let expected = 1;
+  
+  for (let i = 0; i < table.length; i++) {
+    for (let j = 0; j < table[i].length; j++) {
+      const val = table[i][j];
+      if (val !== 0 && val !== expected) { 
+        misplaced++;
+      }
+      expected++;
+      if (expected === 9) expected = 0; 
+    }
+  }
+  return misplaced;
+}
+
+export function euclideanHeuristic(table: number[][]): number {
+  let distance = 0;
+  for (let i = 0; i < table.length; i++) {
+    for (let j = 0; j < table[i].length; j++) {
+      const value = table[i][j];
+      if (value !== 0) {
+        const targetRow = Math.floor((value - 1) / 3);
+        const targetCol = (value - 1) % 3;
+        distance += Math.sqrt(Math.pow(i - targetRow, 2) + Math.pow(j - targetCol, 2));
+      }
+    }
+  }
+  return distance;
 }

@@ -31,6 +31,7 @@
     "dist": "npm run build && electron-builder"
   },
   "dependencies": {
+    "framer-motion": "^12.23.26",
     "heap-js": "^2.7.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
