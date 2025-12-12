@@ -1,6 +1,5 @@
-// aStar.ts
 import { Board } from "../types/board";
-import { reconstructPath } from "../auxFunctions/auxiliar"; 
+import { reconstructPath } from "../auxFunctions/auxiliar";
 import MinHeap from "heap-js";
 
 export type SearchResult = {
@@ -9,8 +8,14 @@ export type SearchResult = {
   time: number;
 };
 
-export const aStar = (board: Board, heuristicFunc: (t: number[][]) => number): SearchResult => {
-  const startTime = performance.now(); 
+export const aStar = (
+    board: Board, 
+    heuristicFunc: (t: number[][], map: any, key: string) => number,
+    goalKey: string,
+    goalMap: any
+): SearchResult => {
+  const startTime = performance.now();
+  const MAX_NODES = 200000; // 🛑 LIMITE MAIOR PARA A*
   
   const heap = new MinHeap<{ board: Board; moves: number; heuristic: number }>(
     (a, b) => (a.moves + a.heuristic) - (b.moves + b.heuristic)
@@ -21,16 +26,17 @@ export const aStar = (board: Board, heuristicFunc: (t: number[][]) => number): S
   const gScore = new Map<string, number>();
 
   const startKey = board.boardToKey();
-  const startH = heuristicFunc(board.table);
+  const startH = heuristicFunc(board.table, goalMap, goalKey);
 
   heap.push({ board, heuristic: startH, moves: 0 });
   parent.set(startKey, null);
   gScore.set(startKey, 0);
 
-  const goalKey = "123456780";
   let visitedCount = 0;
 
   while (heap.length > 0) {
+    if (visitedCount > MAX_NODES) break; // Aborta se demorar demais
+
     const node = heap.pop();
     if (!node) break;
     const head = node.board;
@@ -39,12 +45,12 @@ export const aStar = (board: Board, heuristicFunc: (t: number[][]) => number): S
     if (visited.has(headKey)) continue;
     
     visited.add(headKey);
-    visitedCount++; 
+    visitedCount++;
 
     if (headKey === goalKey) {
         const endTime = performance.now();
         return {
-            path: reconstructPath(parent),
+            path: reconstructPath(parent, goalKey),
             visitedNodes: visitedCount,
             time: endTime - startTime
         };
@@ -62,7 +68,7 @@ export const aStar = (board: Board, heuristicFunc: (t: number[][]) => number): S
         parent.set(key, headKey);
         heap.push({
           board: stage,
-          heuristic: heuristicFunc(stage.table), 
+          heuristic: heuristicFunc(stage.table, goalMap, goalKey),
           moves: tentativeG,
         });
       }

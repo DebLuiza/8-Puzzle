@@ -7,19 +7,23 @@ type pairBoardHeuristic = {
     heuristic: number
 }
 
-export const greedySearch = (board: Board) => {
+// Aceita goalKey para parada e goalMap para cálculo da heurística
+export const greedySearch = (board: Board, goalKey: string, goalMap: any) => {
     const startTime = performance.now();
     let visitedCount = 0;
 
-    const heap = new MinHeap<pairBoardHeuristic>((a: pairBoardHeuristic, b: pairBoardHeuristic) => a.heuristic - b.heuristic);
-    
+    const heap = new MinHeap<pairBoardHeuristic>((a, b) => a.heuristic - b.heuristic);
     const visited = new Set<string>();
     const parent = new Map<string, string | null>();
 
     const startKey = board.boardToKey();
 
     visited.add(startKey);
-    heap.push({ board: board, heuristic: manhattanHeuristic(board.table) });
+    
+    // Calcula heurística inicial baseada no objetivo dinâmico
+    const startH = manhattanHeuristic(board.table, goalMap);
+    
+    heap.push({ board: board, heuristic: startH });
     parent.set(startKey, null);
 
     while (heap.length > 0) {
@@ -27,14 +31,14 @@ export const greedySearch = (board: Board) => {
         if (!node) break;
 
         const head = node.board as Board;
-        visitedCount++; 
+        visitedCount++;
 
         const headKey = head.boardToKey();
 
-        if (headKey === "123456780") {
+        if (headKey === goalKey) {
             const endTime = performance.now();
             return {
-                path: reconstructPath(parent),
+                path: reconstructPath(parent, goalKey),
                 visitedNodes: visitedCount,
                 time: endTime - startTime
             };
@@ -46,7 +50,9 @@ export const greedySearch = (board: Board) => {
             const key = stage.boardToKey();
             if (!visited.has(key)) {
                 visited.add(key);
-                heap.push({ board: stage, heuristic: manhattanHeuristic(stage.table) });
+                // Calcula heurística do próximo estágio baseada no objetivo dinâmico
+                const h = manhattanHeuristic(stage.table, goalMap);
+                heap.push({ board: stage, heuristic: h });
                 parent.set(key, headKey);
             }
         });

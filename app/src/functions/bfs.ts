@@ -1,30 +1,36 @@
 import { Board } from "../types/board";
 import { reconstructPath } from "../auxFunctions/auxiliar";
 
-export const bfs = (board: Board) => {
-    const startTime = performance.now(); 
-    let visitedCount = 0; 
+export const bfs = (board: Board, goalKey: string) => {
+    const startTime = performance.now();
+    let visitedCount = 0;
+    const MAX_NODES = 100000; // 🛑 TRAVA DE SEGURANÇA
 
     const queue: Board[] = [];
     const visited = new Set<string>();
     const parent = new Map<string, string | null>();
 
     const startKey = board.boardToKey();
-    
+
     visited.add(startKey);
     queue.push(board);
     parent.set(startKey, null);   
 
     while (queue.length > 0) {
+        // Se exceder o limite, aborta para não travar o PC
+        if (visitedCount > MAX_NODES) {
+            return { path: [], visitedNodes: visitedCount, time: performance.now() - startTime };
+        }
+
         const head = queue.shift() as Board;
         visitedCount++; 
 
         const headKey = head.boardToKey();
 
-        if (headKey === "123456780") {
+        if (headKey === goalKey) {
             const endTime = performance.now();
             return {
-                path: reconstructPath(parent),
+                path: reconstructPath(parent, goalKey),
                 visitedNodes: visitedCount,
                 time: endTime - startTime
             };
@@ -47,4 +53,4 @@ export const bfs = (board: Board) => {
         visitedNodes: visitedCount,
         time: performance.now() - startTime
     };
-};
+}
