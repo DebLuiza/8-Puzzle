@@ -15,7 +15,7 @@ export const aStar = (
     goalMap: any
 ): SearchResult => {
   const startTime = performance.now();
-  const MAX_NODES = 200000; // 🛑 LIMITE MAIOR PARA A*
+  const MAX_NODES = 200000; 
   
   const heap = new MinHeap<{ board: Board; moves: number; heuristic: number }>(
     (a, b) => (a.moves + a.heuristic) - (b.moves + b.heuristic)
@@ -35,7 +35,7 @@ export const aStar = (
   let visitedCount = 0;
 
   while (heap.length > 0) {
-    if (visitedCount > MAX_NODES) break; // Aborta se demorar demais
+    if (visitedCount > MAX_NODES) break;
 
     const node = heap.pop();
     if (!node) break;

@@ -7,7 +7,6 @@ type pairBoardHeuristic = {
     heuristic: number
 }
 
-// Aceita goalKey para parada e goalMap para cálculo da heurística
 export const greedySearch = (board: Board, goalKey: string, goalMap: any) => {
     const startTime = performance.now();
     let visitedCount = 0;
@@ -20,7 +19,6 @@ export const greedySearch = (board: Board, goalKey: string, goalMap: any) => {
 
     visited.add(startKey);
     
-    // Calcula heurística inicial baseada no objetivo dinâmico
     const startH = manhattanHeuristic(board.table, goalMap);
     
     heap.push({ board: board, heuristic: startH });
@@ -50,7 +48,6 @@ export const greedySearch = (board: Board, goalKey: string, goalMap: any) => {
             const key = stage.boardToKey();
             if (!visited.has(key)) {
                 visited.add(key);
-                // Calcula heurística do próximo estágio baseada no objetivo dinâmico
                 const h = manhattanHeuristic(stage.table, goalMap);
                 heap.push({ board: stage, heuristic: h });
                 parent.set(key, headKey);

@@ -4,7 +4,7 @@ import { reconstructPath } from "../auxFunctions/auxiliar";
 export const bfs = (board: Board, goalKey: string) => {
     const startTime = performance.now();
     let visitedCount = 0;
-    const MAX_NODES = 100000; // 🛑 TRAVA DE SEGURANÇA
+    const MAX_NODES = 100000; 
 
     const queue: Board[] = [];
     const visited = new Set<string>();
@@ -17,7 +17,6 @@ export const bfs = (board: Board, goalKey: string) => {
     parent.set(startKey, null);   
 
     while (queue.length > 0) {
-        // Se exceder o limite, aborta para não travar o PC
         if (visitedCount > MAX_NODES) {
             return { path: [], visitedNodes: visitedCount, time: performance.now() - startTime };
         }
