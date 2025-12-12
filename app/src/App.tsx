@@ -170,11 +170,12 @@ function App() {
     }, 100);
   };
 
-  const loadPreset = (presetStr: string) => {
+const loadPreset = (presetStr: string) => {
     stopAnimation();
     setTiles(parseBoardString(presetStr));
     setStats(null);
     setSolutionPath([]);
+    setError("");
   };
 
   useEffect(() => {

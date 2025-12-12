@@ -1,16 +1,13 @@
-/* 1. Importando a nova fonte moderna (Poppins) do Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 :root {
-  /* --- Paleta de Cores Soft UI --- */
   --bg-color: #e0e5ec;
   --text-main: #4a4a4a;
   --text-secondary: #8d97a5;
-  --accent-color: #6d5dfc; 
+  --accent-color: #6d5dfc;
   --success-color: #2ecc71;
   --error-color: #e74c3c;
 
-  /* --- Sombras --- */
   --shadow-light: -9px -9px 16px rgba(255, 255, 255, 0.8);
   --shadow-dark: 9px 9px 16px rgba(163, 177, 198, 0.6);
   --inner-shadow: inset 6px 6px 10px 0 rgba(163, 177, 198, 0.7),
@@ -23,8 +20,7 @@ html, body, #root {
   margin: 0;
   padding: 0;
   background-color: var(--bg-color);
-  
-  font-family: 'Poppins', sans-serif; 
+  font-family: 'Poppins', sans-serif;
 }
 
 #root {
@@ -35,7 +31,7 @@ html, body, #root {
 }
 
 .container {
-  width: 100%; 
+  width: 100%;
   max-width: 560px;
   display: flex;
   flex-direction: column;
@@ -47,7 +43,7 @@ html, body, #root {
 }
 
 h1 {
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   font-weight: 300;
   letter-spacing: 2px;
   color: var(--text-main);
@@ -58,7 +54,7 @@ h1 {
   align-items: center;
   gap: 15px;
 }
-/* --- TABULEIRO --- */
+
 .board-container {
   padding: 20px;
   border-radius: 30px;
@@ -75,7 +71,6 @@ h1 {
   gap: 15px;
 }
 
-/* Peça (Tile) */
 .tile {
   width: 100%;
   height: 100%;
@@ -88,15 +83,11 @@ h1 {
   font-size: 2.2rem;
   color: var(--text-main);
   background-color: var(--bg-color);
-  
-  /* Efeito de botão flutuante */
   box-shadow: var(--shadow-dark), var(--shadow-light);
-  
   will-change: transform;
   user-select: none;
 }
 
-/* Peça Vazia (Zero) - O "Buraco" */
 .tile.empty {
   background-color: transparent;
   box-shadow: var(--inner-shadow);
@@ -104,7 +95,6 @@ h1 {
   border: none;
 }
 
-/* --- PAINÉIS DE CONTROLE --- */
 .controls-section {
   width: 100%;
   max-width: 500px;
@@ -125,7 +115,6 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* Select Box */
 select {
   padding: 8px 15px;
   border-radius: 10px;
@@ -139,7 +128,6 @@ select {
   margin-left: 10px;
 }
 
-/* --- BOTÕES --- */
 .button-group {
   display: flex;
   flex-wrap: wrap;
@@ -148,12 +136,10 @@ select {
 }
 
 button {
-  /* Flexbox para alinhar Ícone + Texto */
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  
   padding: 12px 24px;
   border: none;
   border-radius: 50px;
@@ -184,12 +170,10 @@ button:disabled {
   background: rgba(0,0,0,0.05);
 }
 
-/* Botões Primários */
 .btn-primary {
   color: var(--accent-color);
 }
 
-/* Botão de Ação (Play/Pause) */
 .btn-action {
   width: 100%;
   margin-top: 10px;
@@ -197,7 +181,6 @@ button:disabled {
   letter-spacing: 1px;
 }
 
-/* --- RESULTADOS --- */
 .results-panel {
   margin-top: 20px;
   animation: fadeIn 0.5s ease;
@@ -232,7 +215,6 @@ button:disabled {
   margin-top: 5px;
 }
 
-/* Slider (Input Range) */
 input[type="range"] {
   -webkit-appearance: none;
   width: 100%;
@@ -266,25 +248,19 @@ input[type="range"]::-webkit-slider-thumb {
   margin-top: 5px;
 }
 
-/* --- MENSAGENS E ANIMAÇÕES --- */
 .error-msg {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
   margin-top: 20px;
-  
-  /* Mudamos para um Laranja/Ambar que serve tanto para erro quanto alerta */
-  color: #d35400; 
-  background: rgba(230, 126, 34, 0.15); /* Fundo laranja bem suave */
+  color: #d35400;
+  background: rgba(230, 126, 34, 0.15);
   border: 1px solid rgba(230, 126, 34, 0.2);
-  
   padding: 15px;
   border-radius: 15px;
   font-weight: 600;
   font-size: 0.9rem;
-  
-  /* Uma animaçãozinha para chamar atenção quando aparece */
   animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -292,6 +268,7 @@ input[type="range"]::-webkit-slider-thumb {
   from { opacity: 0; transform: scale(0.9); }
   to { opacity: 1; transform: scale(1); }
 }
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
