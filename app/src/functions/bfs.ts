@@ -4,7 +4,9 @@ import { reconstructPath } from "../auxFunctions/auxiliar";
 export const bfs = (board: Board, goalKey: string) => {
     const startTime = performance.now();
     let visitedCount = 0;
-    const MAX_NODES = 100000; 
+    const MAX_NODES = 200000; 
+
+    console.log(goalKey)
 
     const queue: Board[] = [];
     const visited = new Set<string>();
